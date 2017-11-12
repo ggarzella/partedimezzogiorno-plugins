@@ -2,54 +2,37 @@
     'use strict';
 
     $(document).ready(function() {
-        if ($('.post-listing').length == 0)
+
+        if ($('.other-events').length == 0)
             return;
 
-        $('.post-listing').append('<span class="loadmore"></span>');
-        var button = $('.post-listing .loadmore');
         var page = 2;
         var loading = false;
+        var otherEvents;
 
-        var scrollHandling = {
-            allow: true,
-            reallow: function() {
-                scrollHandling.allow = true;
-            },
-            delay: 400 //(milliseconds) adjust to the highest acceptable value
-        };
-
-        $(window).scroll(function() {
-
-            if (!loading && scrollHandling.allow) {
-
-                scrollHandling.allow = false;
-                setTimeout(scrollHandling.reallow, scrollHandling.delay);
-                var offset = $(button).offset().top - $(window).scrollTop();
-
-                if (2000 > offset) {
-
-                    loading = true;
-                    var data = {
-                        action: 'be_ajax_load_more',
-                        page: page,
-                        query: beloadmore.query
-                    };
-
-                    $.post(beloadmore.url, data, function(res) {
-
-                        if( res.success) {
-                            $('.post-listing').append(res.data);
-                            $('.post-listing').append(button);
-                            page = page + 1;
-                            loading = false;
-                        } else {
-                            // console.log(res);
-                        }
-                    }).fail(function(xhr, textStatus, e) {
-                        // console.log(xhr.responseText);
-                    });
-
-                }
+        $('body').on('click', '.other-events', function(){
+            if(!loading) {
+                loading = true;
+                var data = {
+                    action: 'be_ajax_load_more',
+                    page: page,
+                    query: beloadmore.query,
+                };
+                $.post(beloadmore.url, data, function(res) {
+                    if (res.success) {
+                        otherEvents = $('.other-events').clone();
+                        $('.other-events').after(res.data.content);
+                        $('.other-events').remove();
+                        if (res.data.continue)
+                            $('.home-container').last().after($(otherEvents));
+                        page = page + 1;
+                        loading = false;
+                    } else {
+                        // console.log(res);
+                    }
+                }).fail(function(xhr, textStatus, e) {
+                    // console.log(xhr.responseText);
+                });
             }
         });
     });
