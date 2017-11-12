@@ -1,0 +1,176 @@
+#save_group_members_box img {
+    height: auto;
+    width: 100%;
+}
+
+#save_group_members_box .member-container, #save_group_members_box .form-group-member {
+    padding: 2%;
+    margin: 0;
+}
+
+#save_group_members_box .content .row {
+    padding: 3px;
+}
+
+#save_group_members_box .member-container {
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+/*#save_group_members_box .text-container {
+    margin: 0;
+    padding: 0 0 0 5px;
+}*/
+
+#save_group_members_box .inside {
+    padding: 0;
+    margin: 0;
+}
+
+#save_group_members_box .postbox .inside {
+    margin: 0;
+}
+
+#save_group_members_box .ruolo {
+    font-size: 16px;
+}
+
+#save_group_members_box label {
+    display: inline;
+}
+
+#save_group_members_box h1 {
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+.member-container {
+    display: table;
+    width: 96%;
+    table-layout: fixed;
+}
+
+.img-container {
+    max-width: 20%;
+    width: auto\9; /* ie8 */
+    vertical-align: top;
+    display: table-cell;
+}
+
+.text-container {
+    vertical-align: top;
+    display: table-cell;
+    width: 78%;
+    padding: 0 0 0 2%;
+}
+
+.form-group-member .row {
+    display: table;
+    width: 96%;
+    table-layout: fixed;
+    padding: 1% 0;
+}
+
+.form-group-member .row label {
+    max-width: 20%;
+    width: auto\9; /* ie8 */
+    vertical-align: top;
+    display: table-cell;
+}
+
+.form-group-member .row div.inputs {
+    width: 78%;
+    padding: 0 0 0 2%;
+    vertical-align: top;
+    display: table-cell;
+}
+
+.form-group-member .row div {
+    width: 23%;
+    vertical-align: top;
+    display: table-cell;
+    padding: 0;
+}
+
+.form-group-member .row input[type="text"] {
+    width: 96%;
+}
+
+.form-group-member .row textarea {
+    width: 96%;
+    height: 200px;
+    resize: none;
+}
+
+.form-group-member input[type="button"] {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin-right: 1%;
+    cursor: pointer;
+}
+
+.form-group-member input[type="button"]:disabled {
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    cursor: inherit;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline;
+}
+
+.btn {
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 6px 12px;
+    border-radius: 2px;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.loading {
+    display: none;
+}
+
+/* CSS INPUT FILE
+
+.row {
+    margin: 0 !important;
+    padding: 10px 0;
+}
+
+.btn.btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn.btn-primary input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+*/
