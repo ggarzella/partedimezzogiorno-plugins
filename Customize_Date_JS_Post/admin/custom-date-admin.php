@@ -31,7 +31,7 @@ class Custom_Date_Admin
             plugin_dir_url(__FILE__) . 'js/custom-date-admin.js',
             array(),
             $this->version,
-            true
+            FALSE
         );
     }
 

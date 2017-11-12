@@ -12,22 +12,24 @@ class Load_More_Admin
 
         global $wp_query;
 
-        wp_enqueue_script(
-            'be-load-more',
-            plugin_dir_url(__FILE__) . 'js/load-mores-admin.js',
-            array(),
-            $this->version,
-            true
-        );
+        if (!is_admin()) {
 
-        wp_localize_script(
-            'be-load-more',
-            'beloadmore',
-            [
-                'url' => admin_url('admin-ajax.php'),
-                'query' => $wp_query->query
-            ]
-        );
+            wp_enqueue_script(
+                'be-load-more',
+                plugin_dir_url(__FILE__) . 'js/load-more-admin.js',
+                array('jquery'),
+                $this->version
+            );
+
+            wp_localize_script(
+                'be-load-more',
+                'beloadmore',
+                [
+                    'url' => admin_url('admin-ajax.php'),
+                    'query' => $wp_query->query
+                ]
+            );
+        }
     }
 
     public function be_ajax_load_more() {
