@@ -32,29 +32,6 @@ class Load_More_Admin
         }
     }
 
-    private function ea_first_term($taxonomy, $field) {
-
-        $terms = get_the_terms(get_the_ID(), $taxonomy);
-
-        if( empty( $terms ) || is_wp_error( $terms ) )
-            return false;
-
-        // If there's only one term, use that
-        if( 1 == count( $terms ) ) {
-            $term = array_shift( $terms );
-        } else {
-            $term = array_shift( $list );
-        }
-
-        // Output
-        if( $field && isset( $term->$field ) )
-            return $term->$field;
-
-        else
-            return $term;
-
-    }
-
     public function be_ajax_load_more() {
 
         $category_name = 'eventi';
