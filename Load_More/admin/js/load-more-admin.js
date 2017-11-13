@@ -40,19 +40,22 @@ function load(page) {
     {
         if (res.success)
         {
+            var otherPost = (page * res.data.post_per_page < res.data.total);
+
             if (page > 1)
             {
                 $('.other-events').after(res.data.content);
                 var otherEvents = $('.other-events').clone();
                 $('.other-events').remove();
 
-                if (res.data.continue)
+                if (otherPost)
                     $('.home-container').last().after($(otherEvents));
             }
             else
             {
                 $('.async-container').append(res.data.content);
-                $('.home-container').last().after("<h2 class='other-events'><span>Leggi altri eventi</span></h2>");
+                if (otherPost)
+                    $('.home-container').last().after("<h2 class='other-events'><span>Leggi altri eventi</span></h2>");
             }
         } else {
             // console.log(res);

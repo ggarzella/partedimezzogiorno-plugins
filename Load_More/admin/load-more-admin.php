@@ -57,9 +57,11 @@ class Load_More_Admin
 
     public function be_ajax_load_more() {
 
+        $category_name = 'eventi';
+        $posts_per_page = get_option('posts_per_page');
+
         $args = array(
-            'category_name' => 'eventi',
-            'posts_per_page' => 4,
+            'category_name' => $category_name,
             'paged' => esc_attr($_POST['page']),
             'meta_key'   => 'meta-box-date',
             'orderby'    => 'meta_value',
@@ -75,26 +77,23 @@ class Load_More_Admin
 
         $loop = new WP_Query($args);
 
-        $count = 0;
-
         if ($loop->have_posts()):
             while ($loop->have_posts()):
                 $loop->the_post();
                 get_template_part('includes/loop', 'home');
-                $count++;
             endwhile;
         endif;
 
         wp_reset_postdata();
         $data = ob_get_clean();
 
-        $continue = true;
-
-        if ($count < 4) $continue = false;
+        $category = get_category(get_cat_ID($category_name));
+        $total = $category->category_count;
 
         $result = array();
         $result["content"] = $data;
-        $result["continue"] = $continue;
+        $result["post_per_page"] = $posts_per_page;
+        $result["total"] = $total;
 
         wp_send_json_success($result);
         wp_die();
