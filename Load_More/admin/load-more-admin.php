@@ -4,12 +4,13 @@ class Load_More_Admin
 {
     private $version;
 
-    public function __construct($version) {
+    public function __construct($version)
+    {
         $this->version = $version;
     }
 
-    public function enqueue_scripts() {
-
+    public function enqueue_scripts()
+    {
         global $wp_query;
 
         if (!is_admin()) {
@@ -32,8 +33,8 @@ class Load_More_Admin
         }
     }
 
-    public function be_ajax_load_more() {
-
+    public function be_ajax_load_more()
+    {
         $category_name = 'eventi';
         $posts_per_page = get_option('posts_per_page');
 
