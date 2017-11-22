@@ -6,10 +6,11 @@
         if ($('.async-container').length == 0)
             return;
 
-        var page = 1;
-        var loading = false;
+        var category = $('.async-container').attr('class').replace(/((.?)+)category-/, ''),
+            page = 1,
+            loading = false;
 
-        load(page);
+        load(page, category);
         page = page + 1;
 
         $('body').on('click', '.other-events', function()
@@ -18,7 +19,7 @@
             {
                 loading = true;
 
-                load(page);
+                load(page, category);
 
                 page = page + 1;
                 loading = false;
@@ -28,13 +29,17 @@
 }
 (jQuery, window, document));
 
-function load(page) {
+function load(page, category) {
 
     var data = {
         action: 'be_ajax_load_more',
         page: page,
-        query: beloadmore.query
+        query: beloadmore.query,
+        category: category
     };
+
+    console.log(category);
+    console.log(data);
 
     $.post(beloadmore.url, data, function(res)
     {
