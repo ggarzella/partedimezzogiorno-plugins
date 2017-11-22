@@ -57,7 +57,7 @@ function load(page, category) {
             {
                 $('.async-container').append(res.data.content);
                 if (otherPost)
-                    $('.home-container').last().after("<h2 class='other-events'><span>Leggi altri eventi</span></h2>");
+                    $('.box-container').last().after("<h2 class='other-events'><span>Leggi altri eventi</span></h2>");
             }
         } else {
             // console.log(res);
