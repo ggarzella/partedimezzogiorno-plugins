@@ -38,9 +38,6 @@ function load(page, category) {
         category: category
     };
 
-    console.log(category);
-    console.log(data);
-
     $.post(beloadmore.url, data, function(res)
     {
         if (res.success)
