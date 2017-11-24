@@ -51,13 +51,13 @@ function load(page, category) {
                 $('.other-events').remove();
 
                 if (otherPost)
-                    $('.home-container').last().after($(otherEvents));
+                    $('.box-container').last().after($(otherEvents));
             }
             else
             {
                 $('.async-container').append(res.data.content);
                 if (otherPost)
-                    $('.main-container').last().after("<h2 class='other-events'><span>Leggi altri eventi</span></h2>");
+                    $('.box-container').last().after("<h2 class='other-events'><span>Leggi altri eventi</span></h2>");
             }
         } else {
             // console.log(res);
