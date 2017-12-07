@@ -39,15 +39,7 @@ class Load_More_Admin
 
         $args = array(
             'category_name' => $category_name,
-            'paged' => esc_attr($_POST['page']),
-            'meta_key'   => 'meta-box-date',
-            'orderby'    => 'meta_value',
-            'meta_query' => array(
-                array(
-                    'key'     => 'meta-box-date',
-                    'orderby' => 'meta_value'
-                )
-            )
+            'paged' => esc_attr($_POST['page'])
         );
 
         ob_start();

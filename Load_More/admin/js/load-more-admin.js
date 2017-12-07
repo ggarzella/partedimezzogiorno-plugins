@@ -6,7 +6,7 @@
         if ($('.async-container').length == 0)
             return;
 
-        var category = $('.async-container').attr('class').replace(/((.?)+)category-/, ''),
+        var category = $('.async-container').attr('class').match(/category-([\w]+)/)[1],
             page = 1,
             loading = false;
 
