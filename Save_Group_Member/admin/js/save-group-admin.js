@@ -16,6 +16,8 @@
 
         $('div.modifyGroupMember a').on('click', this, updateGroupMember);
 
+        $('.form-group-member .inputs .btn').on('click', function() { imgFile.click(); });
+
         function updateGroupMember(event) {
 
             event.preventDefault();
@@ -42,9 +44,12 @@
             $('input[name="saveGroupMember"]', formCopy).on('click', this, saveGroupMember);
             $('.cancelGroupMember', formCopy).on("click", this, cancelGroupMember);
 
-            var imgFile = formCopy.find('input[name="image-member"]');
+            var imgFile = formCopy.find('input[name="image-member"]', memberContainer),
+                btn = formCopy.find('.inputs .btn', memberContainer);
 
             imgFile.on('change', uploadImage);
+
+            btn.on('click', function() { imgFile.click(); });
 
             formCopy.hide();
             memberContainer.after(formCopy);
