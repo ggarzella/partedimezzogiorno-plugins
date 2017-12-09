@@ -2,11 +2,8 @@
     'use strict';
 
     $(document).ready(function () {
+
         var form = $('.form-group-member').last();
-
-        //var frmvalidator  = new Validator("post");
-
-        //frmvalidator.addValidation("role", "req", "Please enter your role");
 
         var imgFile = form.find('input[name="image-member"]');
 
@@ -14,12 +11,14 @@
 
         $('input[name="saveGroupMember"]').on('click', this, saveGroupMember);
 
-        $('div.modifyGroupMember a').on('click', this, updateGroupMember);
+        $('div.modifyGroupMember a.modifyMember').on('click', this, updateGroupMember);
 
         $('.form-group-member .inputs .btn').on('click', function() { imgFile.click(); });
 
-        function updateGroupMember(event) {
 
+
+        function updateGroupMember(event)
+        {
             event.preventDefault();
 
             var memberContainer = $(this).parents('.member-container'),
@@ -29,13 +28,13 @@
             formCopy.attr('form-index', formIndex);
             formCopy.find('input[name="saveGroupMember"]').after('<a href="#" onclick="return false" class="cancelGroupMember">Annulla</a>');
 
-            var role = $('label[name="role"]', memberContainer).text(),
+            var role = $('span[name="role"]', memberContainer).text(),
                 name = $('span[name="name"]', memberContainer).text(),
                 lastname = $('span[name="lastname"]', memberContainer).text(),
                 description = $('p', memberContainer).text(),
                 imageId = $('input[name="image-id"]', memberContainer).val();
 
-            $('input[name="role"]', formCopy).val(role);
+            $('span[name="role"]', formCopy).text(role);
             $('input[name="name"]', formCopy).val(name);
             $('input[name="lastname"]', formCopy).val(lastname);
             $('textarea[name="description"]', formCopy).val(description);
@@ -62,19 +61,11 @@
         }
 
 
-        function saveGroupMember(event) {
+
+        function saveGroupMember(event)
+        {
             var form = $(this).parents('.form-group-member'),
                 formIndex = form.attr('form-index');
-
-            if (formIndex == undefined) {
-                $('.member-container').each(function (index) {
-                    if ($(this).attr('member-index') != undefined) {
-                        formIndex = $('.member-container').length - 1;
-                        return false;
-                    } else
-                        formIndex = 0;
-                });
-            }
 
             $.post(
                 save_member_meta_box_obj.url,
@@ -82,7 +73,7 @@
                     action: 'save_member_group',
                     formIndex: formIndex,
                     postId: $('input[name="post_id"]').val(),
-                    role: $('input[name="role"]', form).val(),
+                    role: $('span[name="role"]', form).text(),
                     name: $('input[name="name"]', form).val(),
                     lastname: $('input[name="lastname"]', form).val(),
                     description: $('textarea[name="description"]', form).val(),
@@ -93,9 +84,6 @@
                     var data = JSON.parse(data);
 
                     if (data.result == 'success') {
-
-                        var myString = "L\'emozione";
-                        myString.replace(/\\/g, "");
 
                         for (var field in data)
                             if ((typeof data[field]) == 'string')
@@ -179,7 +167,7 @@
             $('textarea[name="description"]', formGroup).val("");
             $('input[name="image-id"]', formGroup).val("");
 
-            $('div.modifyGroupMember a', newMemberContainer).on('click', this, updateGroupMember);
+            $('div.modifyGroupMember a.modifyMember', newMemberContainer).on('click', this, updateGroupMember);
 
             newMemberContainer.fadeIn("slow");
 
@@ -231,27 +219,6 @@
                 loading.hide();
             });
         }
-
-        /*var inputs = document.querySelectorAll('.image-file');
-        Array.prototype.forEach.call( inputs, function( input )
-        {
-            var label	 = input.nextElementSibling,
-                labelVal = label.innerHTML;
-
-            input.addEventListener( 'change', function( e )
-            {
-                var fileName = '';
-                if( this.files && this.files.length > 1 )
-                    fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
-                else
-                    fileName = e.target.value.split( '\\' ).pop();
-
-                if( fileName )
-                    label.querySelector( 'span' ).innerHTML = fileName;
-                else
-                    label.innerHTML = labelVal;
-            });
-        });*/
     });
 }
 (jQuery, window, document));
