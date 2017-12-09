@@ -43,7 +43,7 @@ class Save_Group_Admin
         {*/
             $pageTemplate = get_post_meta($post->ID, '_wp_page_template', true);
 
-            if ($pageTemplate == 'page-comando.php' || $pageTemplate == 'page-gruppo-civile.php')
+            if ($pageTemplate == 'page-comando.php' || $pageTemplate == 'page-gruppo-civile.php' || $pageTemplate == 'page-gruppo-militare.php')
             {
                 add_meta_box(
                     'save_group_members_box',
@@ -58,6 +58,9 @@ class Save_Group_Admin
     }
 
     public function render_meta_box() {
+
+        $group = $this->buildGroup();
+
         require_once plugin_dir_path(__FILE__) . 'partials/save-group-view.php';
     }
 
@@ -71,60 +74,44 @@ class Save_Group_Admin
 
         if (isset($_POST['action'])) {
 
-            $index = (int)$_POST['formIndex'];
-            $post_id = (int)$_POST['postId'];
-            $role = filter_var($_POST['role']);
-            $name = $_POST['name'];
-            $lastname = $_POST['lastname'];
-            $description = $_POST['description'];
-            $image_id = (int)$_POST['imageId'];
+            if ($_POST['action'] == 'save_member_group') {
 
-            $image_url = wp_get_attachment_image_src($image_id, 'thumbnail');
-            $image_url = $image_url[0];
+                $index = (int)$_POST['formIndex'];
+                $post_id = (int)$_POST['postId'];
+                $role = filter_var($_POST['role']);
+                $name = $_POST['name'];
+                $lastname = $_POST['lastname'];
+                $description = $_POST['description'];
+                $image_id = (int)$_POST['imageId'];
 
-            if ( !add_post_meta($post_id, 'name'.$index, $name, true) )
-                update_post_meta($post_id, 'name'.$index, $name);
+                $image_url = wp_get_attachment_image_src($image_id, 'thumbnail');
+                $image_url = $image_url[0];
 
-            /*if (!$success) {
-                echo "Errore nel salvataggio del nome";
-                wp_die();
-            }*/
+                if (!add_post_meta($post_id, 'name' . $index, $name, true))
+                    update_post_meta($post_id, 'name' . $index, $name);
 
-            if ( !add_post_meta($post_id, 'lastname'.$index, $lastname, true) )
-                update_post_meta($post_id, 'lastname'.$index, $lastname);
+                if (!add_post_meta($post_id, 'lastname' . $index, $lastname, true))
+                    update_post_meta($post_id, 'lastname' . $index, $lastname);
 
-            /*if (!$success) {
-                echo "Errore nel salvataggio del cognome";
-                wp_die();
-            }*/
+                if (!add_post_meta($post_id, 'role' . $index, $role, true))
+                    update_post_meta($post_id, 'role' . $index, $role);
 
-            if ( !add_post_meta($post_id, 'role'.$index, $role, true) )
-                update_post_meta($post_id, 'role'.$index, $role);
+                if (!add_post_meta($post_id, 'description' . $index, $description, true))
+                    update_post_meta($post_id, 'description' . $index, $description);
 
-            /*if (!$success) {
-                echo "Errore nel salvataggio del ruolo";
-                wp_die();
-            }*/
+                if (!add_post_meta($post_id, 'imageId' . $index, $image_id, true))
+                    update_post_meta($post_id, 'imageId' . $index, $image_id);
 
-            if ( !add_post_meta($post_id, 'description'.$index, $description, true) )
-                update_post_meta($post_id, 'description'.$index, $description);
+                $data["result"] = "success";
+                $data["name"] = $name;
+                $data["lastname"] = $lastname;
+                $data["role"] = $role;
+                $data["description"] = $description;
+                $data["index"] = $index;
+                $data["imageId"] = $image_id;
+                $data["imageUrl"] = $image_url;
 
-            /*if (!$success) {
-                echo "Errore nel salvataggio della descrizione";
-                wp_die();
-            }*/
-
-            if ( !add_post_meta($post_id, 'imageId'.$index, $image_id, true) )
-                update_post_meta($post_id, 'imageId'.$index, $image_id);
-
-            $data["result"] = "success";
-            $data["name"] = $name;
-            $data["lastname"] = $lastname;
-            $data["role"] = $role;
-            $data["description"] = $description;
-            $data["index"] = $index;
-            $data["imageId"] = $image_id;
-            $data["imageUrl"] = $image_url;
+            }
 
         } else
             $data["result"] = "failure";
@@ -132,5 +119,28 @@ class Save_Group_Admin
         echo json_encode($data);
 
         wp_die();
+    }
+
+    private function buildGroup()
+    {
+        global $post;
+
+        $config = file_get_contents(plugin_dir_path(__FILE__) . 'js/config.json');
+        $schema = json_decode($config, true);
+        $template_name = mezzogiorno_get_template_slug(get_page_template_slug($post->ID));
+        $groups = $schema[$template_name];
+
+        if ($template_name == "gruppo")
+            $objGroup = $groups[$post->post_name];
+        else
+            $objGroup = $groups;
+
+        $result = [];
+
+        foreach ($objGroup as $name => $number)
+            for ($y=0; $y<$number; $y++)
+                array_push($result, $name);
+
+        return $result;
     }
 }
