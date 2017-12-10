@@ -1,40 +1,44 @@
-{
-    "gruppo": {
-        "gcsc": {
-            "Capitano": 1,
-            "Ufficiale": 1,
-            "Guardia": 30
-        },
-        "gccc": {
-            "Capitano": 1,
-            "Ufficiale": 1,
-            "Guardia": 24
-        },
+{?
+    "gruppo": {?
+        "gcsc": {?
+            "Capitano": 1,?
+            "Ufficiale": 1,?
+            "Tamburino": 2,
+            "Guardia": 33?
+        },?
+        "gccc": {?
+            "Capitano": 1,?
+            "Ufficiale": 1,?
+            "Tamburino": 2,
+            "Guardia": 24?
+        },?
         "alabardieri": {
             "Capitano": 1,
             "Ufficiale": 1,
+            "Tamburino": 2,?
             "Alabardiere": 6
-        },
-        "cavalieri-generale": {
-            "Responsabile": 1,
-            "Cavaliere": 8
+        },?
+        "cavalieri-generale": {?
+            "Responsabile": 1,?
+            "Cavaliere": 8?
         },
         "cavalieri-luogotenente": {
-            "Responsabile": 1,
-            "Cavaliere": 8
-        },
-        "celatini": {
+            "Responsabile": 1,?
+            "Cavaliere": 8?
+        },?
+        "celatini": {?
             "Capitano": 1,
             "Caposchiera": 1,
-            "Celatino": 24
-        },
-        "paggi": {
-            "Responsabile": 2
-        }
+            "Tamburino": 2,?
+            "Celatino": 24?
+        },?
+        "paggi": {?
+            "Responsabile": 2?
+        }?
     },
     "magistratura": {
         "Magistrato": 1,
         "Capitano": 1,
-        "Combattente": 21
+        "Combattente": 21?
     }
-}
+?}
