@@ -1,44 +1,46 @@
-{?
-    "gruppo": {?
-        "gcsc": {?
-            "Capitano": 1,?
-            "Ufficiale": 1,?
-            "Tamburino": 2,
-            "Guardia": 33?
-        },?
-        "gccc": {?
-            "Capitano": 1,?
-            "Ufficiale": 1,?
-            "Tamburino": 2,
-            "Guardia": 24?
-        },?
+{
+    "gruppo": {
+        "gcsc": {
+            "capitano": 1,
+            "ufficiale": 1,
+            "tamburini": 2,
+            "guardie": 33
+        },
+        "gccc": {
+            "capitano": 1,
+            "ufficiale": 1,
+            "tamburini": 2,
+            "guardie": 24
+        },
         "alabardieri": {
-            "Capitano": 1,
-            "Ufficiale": 1,
-            "Tamburino": 2,?
-            "Alabardiere": 6
-        },?
-        "cavalieri-generale": {?
-            "Responsabile": 1,?
-            "Cavaliere": 8?
+            "capitano": 1,
+            "ufficiale": 1,
+            "tamburini": 2,
+            "alabardieri": 6
+        },
+        "celatini": {
+            "capitano": 1,
+            "caposchiera": 1,
+            "tamburini": 2,
+            "celatini": 24
+        },
+        "paggi": {
+            "responsabile": 2
+        }
+    },
+    "gruppo-2": {
+        "cavalieri-generale": {
+            "responsabile": 1,
+            "cavalieri": 8
         },
         "cavalieri-luogotenente": {
-            "Responsabile": 1,?
-            "Cavaliere": 8?
-        },?
-        "celatini": {?
-            "Capitano": 1,
-            "Caposchiera": 1,
-            "Tamburino": 2,?
-            "Celatino": 24?
-        },?
-        "paggi": {?
-            "Responsabile": 2?
-        }?
+            "responsabile": 1,
+            "cavalieri": 8
+        }
     },
     "magistratura": {
-        "Magistrato": 1,
-        "Capitano": 1,
-        "Combattente": 21?
+        "magistrato": 1,
+        "capitano": 1,
+        "combattenti": 21
     }
-?}
+}

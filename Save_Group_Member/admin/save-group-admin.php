@@ -128,9 +128,10 @@ class Save_Group_Admin
         $config = file_get_contents(plugin_dir_path(__FILE__) . 'js/config.json');
         $schema = json_decode($config, true);
         $template_name = mezzogiorno_get_template_slug(get_page_template_slug($post->ID));
+
         $groups = $schema[$template_name];
 
-        if ($template_name == "gruppo")
+        if ($template_name == "gruppo" || $template_name == "gruppo-2")
             $objGroup = $groups[$post->post_name];
         else
             $objGroup = $groups;

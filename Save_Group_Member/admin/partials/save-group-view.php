@@ -27,7 +27,7 @@ for ($i = 0; $i < count($group); $i++) {
         </div>
         <div class="text-container">
             <h1>
-                <span name="role"><?php echo $role; ?></span>
+                <span class="role" name="role"><?php echo $role; ?></span>
             </h1>
             <label>
                 <span name="name"><?php echo $name; ?></span>&nbsp;
@@ -52,7 +52,7 @@ for ($i = 0; $i < count($group); $i++) {
         <span class="label" style="padding: 6px 0;">Ruolo</span>
         <div class="inputs">
             <h1>
-                <span name="role"></span>
+                <span class="role" name="role"></span>
             </h1>
         </div>
     </div>
