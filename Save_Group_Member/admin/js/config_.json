@@ -41,6 +41,10 @@
     "magistratura": {
         "magistrato": 1,
         "capitano": 1,
-        "combattenti": 21
+        "tamburini": 2,
+        "alfiere": 1,
+        "paggio": 1,
+        "caposchiera": 1,
+        "combattenti": 20
     }
 }

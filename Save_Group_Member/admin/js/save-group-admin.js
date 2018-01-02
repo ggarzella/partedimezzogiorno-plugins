@@ -15,10 +15,10 @@
 
         $('.form-group-member .inputs .btn').on('click', function() { imgFile.click(); });
 
-
-
         function updateGroupMember(event)
         {
+            console.log("updateGroupMember");
+
             event.preventDefault();
 
             var memberContainer = $(this).parents('.member-container'),
@@ -64,6 +64,8 @@
 
         function saveGroupMember(event)
         {
+            console.log("saveGroupMember");
+
             var form = $(this).parents('.form-group-member'),
                 formIndex = form.attr('form-index');
 
@@ -109,6 +111,8 @@
 
         function cancelGroupMember(event) {
 
+            console.log("cancelGroupMember");
+
             event.preventDefault();
 
             var element = $(event.currentTarget).get(0),
@@ -127,6 +131,8 @@
 
         function afterUpdate(data) {
 
+            console.log("afterUpdate");
+
             var formIndex = data.index,
                 memberContainer = $('.member-container[member-index="'+formIndex+'"]'),
                 formGroup = $('.form-group-member[form-index="'+formIndex+'"]');
@@ -144,6 +150,8 @@
 
 
         function afterCreation(data) {
+
+            console.log("afterCreation");
 
             var formIndex = data.index,
                 newMemberContainer = $('.member-container').last().clone(),
@@ -181,6 +189,8 @@
 
 
         function uploadImage(e) {
+
+            console.log("uploadImage");
 
             var loading = $('.loading');
 

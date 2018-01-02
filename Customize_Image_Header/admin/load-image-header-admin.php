@@ -48,6 +48,9 @@ class Load_Image_Header_Admin
 
         $result = new WP_Query($args);
 
+        var_dump($result);
+        exit;
+
         if ($result->have_posts()):
             while ($result->have_posts()):
                 $result->the_post();

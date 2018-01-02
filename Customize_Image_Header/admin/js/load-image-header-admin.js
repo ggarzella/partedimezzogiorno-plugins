@@ -3,16 +3,16 @@
 
     $(document).ready(function() {
 
-        /*var data = {
+        var data = {
             action: 'be_ajax_load_image_header',
             page: page,
             query: beloadmore.query,
             category: category
         };
 
-        $.post(beloadmore.url, data, function(res)
+        $.get(beloadmore.url, data, function(res)
         {
-            if (res.success)
+            /*if (res.success)
             {
                 var otherPost = (page * res.data.post_per_page < res.data.total);
 
@@ -33,9 +33,9 @@
                 }
             } else {
                 // console.log(res);
-            }
+            }*/
         }).fail(function(xhr, textStatus, e) {
             // console.log(xhr.responseText);
-        });*/
+        });
     });
 });

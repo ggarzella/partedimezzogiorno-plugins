@@ -4,11 +4,13 @@ class Save_Group_Admin
 {
     private $version;
 
-    public function __construct($version) {
+    public function __construct($version)
+    {
         $this->version = $version;
     }
 
-    public function enqueue_styles() {
+    public function enqueue_styles()
+    {
         wp_enqueue_style(
             'save-group-admin-css',
             plugin_dir_url(__FILE__) . 'css/save-group-admin.css',
@@ -36,14 +38,15 @@ class Save_Group_Admin
         );
     }
 
-    public function add_meta_box() {
+    public function add_meta_box()
+    {
         global $post;
 
         /*if (!empty($post))
         {*/
         $pageTemplate = get_post_meta($post->ID, '_wp_page_template', true);
 
-        if ($pageTemplate == 'page-comando.php' || $pageTemplate == 'page-gruppo-civile.php' || $pageTemplate == 'page-gruppo-militare.php' || $pageTemplate == 'page-cavalieri.php')
+        if ($pageTemplate == 'page-comando.php' || $pageTemplate == 'page-gruppo-armato.php' || $pageTemplate == 'page-gruppo-militare.php' || $pageTemplate == 'page-cavalieri.php' || $pageTemplate == 'page-paggi.php' || $pageTemplate == 'page-specialisti.php')
         {
             add_meta_box(
                 'save_group_members_box',
@@ -57,14 +60,13 @@ class Save_Group_Admin
         //}
     }
 
-    public function render_meta_box() {
-
-        $group = $this->buildGroup();
-
-        require_once plugin_dir_path(__FILE__) . 'partials/save-group-view.php';
+    public function render_meta_box()
+    {
+        if ($group = $this->buildGroup()) require_once plugin_dir_path(__FILE__) . 'partials/save-group-view.php';
     }
 
-    public function add_edit_form_multipart_encoding() {
+    public function add_edit_form_multipart_encoding()
+    {
         echo ' enctype="multipart/form-data"';
     }
 
@@ -125,23 +127,54 @@ class Save_Group_Admin
     {
         global $post;
 
-        $config = file_get_contents(plugin_dir_path(__FILE__) . 'js/config.json');
+        $config = file_get_contents(get_template_directory_uri() . '/js/config.json');
         $schema = json_decode($config, true);
-        $template_name = mezzogiorno_get_template_slug(get_page_template_slug($post->ID));
 
-        $groups = $schema[$template_name];
+        if ($template_name = mezzogiorno_get_template_slug(get_page_template_slug($post->ID)))
+        {
+            $keys = explode("-", $template_name);
 
-        if ($template_name == "gruppo" || $template_name == "gruppo-2")
-            $objGroup = $groups[$post->post_name];
-        else
-            $objGroup = $groups;
+            foreach ($schema as $section) {
+
+                if (count($keys) == 1) {
+
+                    if ($schema[$keys[0]] == $section) {
+                        $objGroup = $section;
+                        break;
+                    }
+
+                } else {
+
+                    if ($section[$post->post_name]) {
+
+                        $objGroup = $section[$post->post_name];
+                        break;
+
+                    } else {
+
+                        foreach ($section as $group) {
+
+                            if ($group[$post->post_name]) {
+                                $objGroup = $group[$post->post_name];
+                                break 2;
+                            }
+                        }
+                    }
+                }
+            }
+        } else
+            $objGroup = $schema[$post->post_name];
 
         $result = [];
 
-        foreach ($objGroup as $name => $number)
-            for ($y=0; $y<$number; $y++)
-                array_push($result, $name);
+        if ($objGroup) {
+            foreach ($objGroup as $name => $number)
+                for ($y = 0; $y < $number; $y++)
+                    array_push($result, $name);
 
-        return $result;
+            return $result;
+        }
+
+        return false;
     }
 }
