@@ -42,21 +42,19 @@ class Save_Group_Admin
     {
         global $post;
 
-        /*if (!empty($post))
-        {*/
-        $pageTemplate = get_post_meta($post->ID, '_wp_page_template', true);
+        //if (!empty($post)) {
+            $pageTemplate = get_post_meta($post->ID, '_wp_page_template', true);
 
-        if ($pageTemplate == 'page-comando.php' || $pageTemplate == 'page-gruppo-armato.php' || $pageTemplate == 'page-gruppo-militare.php' || $pageTemplate == 'page-cavalieri.php' || $pageTemplate == 'page-paggi.php' || $pageTemplate == 'page-specialisti.php')
-        {
-            add_meta_box(
-                'save_group_members_box',
-                'Membri',
-                array($this, 'render_meta_box'),
-                'page',
-                'normal',
-                'high'
-            );
-        }
+            if ($pageTemplate == 'page-comando.php' || $pageTemplate == 'page-gruppo-armato.php' || $pageTemplate == 'page-gruppo-militare.php' || $pageTemplate == 'page-cavalieri.php' || $pageTemplate == 'page-paggi.php' || $pageTemplate == 'page-specialisti.php') {
+                add_meta_box(
+                    'save_group_members_box',
+                    'Membri',
+                    array($this, 'render_meta_box'),
+                    'page',
+                    'normal',
+                    'high'
+                );
+            }
         //}
     }
 
