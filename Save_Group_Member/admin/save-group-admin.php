@@ -42,25 +42,22 @@ class Save_Group_Admin
     {
         global $post;
 
-        //if (!empty($post)) {
-            $pageTemplate = get_post_meta($post->ID, '_wp_page_template', true);
-
-            if ($pageTemplate == 'page-comando.php' || $pageTemplate == 'page-gruppo-armato.php' || $pageTemplate == 'page-gruppo-militare.php' || $pageTemplate == 'page-cavalieri.php' || $pageTemplate == 'page-paggi.php' || $pageTemplate == 'page-specialisti.php') {
-                add_meta_box(
-                    'save_group_members_box',
-                    'Membri',
-                    array($this, 'render_meta_box'),
-                    'page',
-                    'normal',
-                    'high'
-                );
-            }
-        //}
+        add_meta_box(
+            'save_group_members_box',
+            'Membri',
+            array($this, 'render_meta_box'),
+            'gruppi',
+            'normal',
+            'high'
+        );
     }
 
     public function render_meta_box()
     {
-        if ($group = $this->buildGroup()) require_once plugin_dir_path(__FILE__) . 'partials/save-group-view.php';
+        if (count($group = $this->buildGroup()) > 0)
+            require_once plugin_dir_path(__FILE__) . 'partials/save-group-view.php';
+        else
+            wp_die();
     }
 
     public function add_edit_form_multipart_encoding()
@@ -125,54 +122,36 @@ class Save_Group_Admin
     {
         global $post;
 
-        $config = file_get_contents(get_template_directory_uri() . '/js/config.json');
+        $groupName = $post->post_name;
+
+        try
+        {
+            $category = get_the_category();
+            $ancestors = get_ancestors($category[0]->term_id, 'category');
+            $direct_parent_id = $ancestors[0];
+            $categoryParent = get_the_category_by_ID($direct_parent_id);
+
+            if (is_wp_error($categoryParent)) wp_die();
+
+            $config = file_get_contents(get_template_directory_uri() . '/js/config-' . $categoryParent . '.json');
+        }
+        catch(Exception $e)
+        {
+            wp_die();
+        }
+
         $schema = json_decode($config, true);
 
-        if ($template_name = mezzogiorno_get_template_slug(get_page_template_slug($post->ID)))
-        {
-            $keys = explode("-", $template_name);
+        if ($group = $schema[$category[0]->name][$groupName])
+            $objGroup = $group;
 
-            foreach ($schema as $section) {
+        $result = array();
 
-                if (count($keys) == 1) {
-
-                    if ($schema[$keys[0]] == $section) {
-                        $objGroup = $section;
-                        break;
-                    }
-
-                } else {
-
-                    if ($section[$post->post_name]) {
-
-                        $objGroup = $section[$post->post_name];
-                        break;
-
-                    } else {
-
-                        foreach ($section as $group) {
-
-                            if ($group[$post->post_name]) {
-                                $objGroup = $group[$post->post_name];
-                                break 2;
-                            }
-                        }
-                    }
-                }
-            }
-        } else
-            $objGroup = $schema[$post->post_name];
-
-        $result = [];
-
-        if ($objGroup) {
+        if ($objGroup)
             foreach ($objGroup as $name => $number)
                 for ($y = 0; $y < $number; $y++)
                     array_push($result, $name);
 
-            return $result;
-        }
-
-        return false;
+        return $result;
     }
 }
