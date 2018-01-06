@@ -120,10 +120,6 @@ class Save_Group_Admin
 
     private function buildGroup()
     {
-        global $post;
-
-        $groupName = $post->post_name;
-
         try
         {
             $category = get_the_category();
@@ -131,19 +127,18 @@ class Save_Group_Admin
             $direct_parent_id = $ancestors[0];
             $categoryParent = get_the_category_by_ID($direct_parent_id);
 
-            if (is_wp_error($categoryParent)) wp_die();
-
-            $config = file_get_contents(get_template_directory_uri() . '/js/config-' . $categoryParent . '.json');
+            if ($category[0]->name) {
+                if (is_wp_error($categoryParent))
+                    $objGroup = $this->loadSimpleGroup($category[0]->name);
+                else
+                    $objGroup = $this->loadTreeLinedGroup($categoryParent, $category[0]->name);
+            } else
+                $objGroup = $this->loadMixGroup();
         }
         catch(Exception $e)
         {
             wp_die();
         }
-
-        $schema = json_decode($config, true);
-
-        if ($group = $schema[$category[0]->name][$groupName])
-            $objGroup = $group;
 
         $result = array();
 
@@ -153,5 +148,52 @@ class Save_Group_Admin
                     array_push($result, $name);
 
         return $result;
+    }
+
+    private function loadMixGroup()
+    {
+        global $post;
+
+        $config = @file_get_contents(get_template_directory_uri() . '/js/config-civile-militare.json');
+        $schema = $this->getSchema($config);
+
+        $groupName = $post->post_name;
+
+        if ($group = $schema[$groupName])
+            $objGroup = $group;
+
+        return $objGroup;
+    }
+
+    private function loadTreeLinedGroup($categoryParent, $category)
+    {
+        global $post;
+
+        $config = @file_get_contents(get_template_directory_uri() . '/js/config-' . $categoryParent . '.json');
+        $schema = $this->getSchema($config);
+        $groupName = $post->post_name;
+
+        if ($group = $schema[$category][$groupName])
+            $objGroup = $group;
+
+        return $objGroup;
+    }
+
+    private function loadSimpleGroup($category)
+    {
+        $config = @file_get_contents(get_template_directory_uri() . '/js/config-' . $category . '.json');
+
+        $schema = $this->getSchema($config);
+
+        if ($group = $schema[$category])
+            $objGroup = $group;
+
+        return $objGroup;
+    }
+
+    private function getSchema($config)
+    {
+        $schema = json_decode($config, true);
+        return $schema;
     }
 }
